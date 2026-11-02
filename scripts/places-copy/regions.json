@@ -1,0 +1,296 @@
+{
+ "//": [
+  "The regions of the map's place copy, one per Geofabrik extract, each cut on its day",
+  "(0 = Sunday, UTC) by .github/workflows/places-copy.yml: North America on Sundays, the rest",
+  "of the world Monday to Saturday. est: minutes a run of it is reckoned to take on a",
+  "private repository's machines, from its size on 2026-11-01 (North America's measured: 52 to",
+  "66 minutes). budget: null, as this repository is public and its runs cost nothing; with one",
+  "(monthlyMinutes, reservePerDay, reserveForNorthAmerica), run.py keeps within a private",
+  "account's free minutes. Every region of the world is here: the server needs every outline",
+  "to know where the copies it holds end."
+ ],
+ "budget": null,
+ "regions": {
+  "north-america": {
+   "path": "north-america",
+   "day": 0,
+   "est": 66,
+   "precise": true
+  },
+  "central-america": {
+   "path": "central-america",
+   "day": 1,
+   "est": 4
+  },
+  "south-america": {
+   "path": "south-america",
+   "day": 1,
+   "est": 14
+  },
+  "australia-oceania": {
+   "path": "australia-oceania",
+   "day": 1,
+   "est": 6
+  },
+  "asia": {
+   "path": "asia",
+   "day": 2,
+   "est": 48
+  },
+  "africa": {
+   "path": "africa",
+   "day": 3,
+   "est": 24
+  },
+  "europe-poland": {
+   "path": "europe/poland",
+   "day": 3,
+   "est": 8
+  },
+  "europe-czech-republic": {
+   "path": "europe/czech-republic",
+   "day": 3,
+   "est": 5
+  },
+  "europe-slovakia": {
+   "path": "europe/slovakia",
+   "day": 3,
+   "est": 3
+  },
+  "europe-hungary": {
+   "path": "europe/hungary",
+   "day": 3,
+   "est": 3
+  },
+  "europe-romania": {
+   "path": "europe/romania",
+   "day": 3,
+   "est": 3
+  },
+  "europe-bulgaria": {
+   "path": "europe/bulgaria",
+   "day": 3,
+   "est": 2
+  },
+  "europe-greece": {
+   "path": "europe/greece",
+   "day": 3,
+   "est": 3
+  },
+  "europe-cyprus": {
+   "path": "europe/cyprus",
+   "day": 3,
+   "est": 2
+  },
+  "europe-serbia": {
+   "path": "europe/serbia",
+   "day": 3,
+   "est": 3
+  },
+  "europe-bosnia-herzegovina": {
+   "path": "europe/bosnia-herzegovina",
+   "day": 3,
+   "est": 2
+  },
+  "europe-montenegro": {
+   "path": "europe/montenegro",
+   "day": 3,
+   "est": 2
+  },
+  "europe-kosovo": {
+   "path": "europe/kosovo",
+   "day": 3,
+   "est": 2
+  },
+  "europe-macedonia": {
+   "path": "europe/macedonia",
+   "day": 3,
+   "est": 2
+  },
+  "europe-albania": {
+   "path": "europe/albania",
+   "day": 3,
+   "est": 2
+  },
+  "europe-lithuania": {
+   "path": "europe/lithuania",
+   "day": 3,
+   "est": 3
+  },
+  "europe-latvia": {
+   "path": "europe/latvia",
+   "day": 3,
+   "est": 2
+  },
+  "europe-estonia": {
+   "path": "europe/estonia",
+   "day": 3,
+   "est": 2
+  },
+  "europe-france": {
+   "path": "europe/france",
+   "day": 4,
+   "est": 16
+  },
+  "europe-italy": {
+   "path": "europe/italy",
+   "day": 4,
+   "est": 8
+  },
+  "europe-spain": {
+   "path": "europe/spain",
+   "day": 4,
+   "est": 6
+  },
+  "europe-portugal": {
+   "path": "europe/portugal",
+   "day": 4,
+   "est": 3
+  },
+  "europe-azores": {
+   "path": "europe/azores",
+   "day": 4,
+   "est": 2
+  },
+  "europe-andorra": {
+   "path": "europe/andorra",
+   "day": 4,
+   "est": 2
+  },
+  "europe-monaco": {
+   "path": "europe/monaco",
+   "day": 4,
+   "est": 2
+  },
+  "europe-malta": {
+   "path": "europe/malta",
+   "day": 4,
+   "est": 2
+  },
+  "europe-switzerland": {
+   "path": "europe/switzerland",
+   "day": 4,
+   "est": 4
+  },
+  "europe-liechtenstein": {
+   "path": "europe/liechtenstein",
+   "day": 4,
+   "est": 2
+  },
+  "europe-austria": {
+   "path": "europe/austria",
+   "day": 4,
+   "est": 4
+  },
+  "europe-slovenia": {
+   "path": "europe/slovenia",
+   "day": 4,
+   "est": 3
+  },
+  "europe-croatia": {
+   "path": "europe/croatia",
+   "day": 4,
+   "est": 3
+  },
+  "europe-germany": {
+   "path": "europe/germany",
+   "day": 5,
+   "est": 16
+  },
+  "europe-netherlands": {
+   "path": "europe/netherlands",
+   "day": 5,
+   "est": 6
+  },
+  "europe-belgium": {
+   "path": "europe/belgium",
+   "day": 5,
+   "est": 4
+  },
+  "europe-luxembourg": {
+   "path": "europe/luxembourg",
+   "day": 5,
+   "est": 2
+  },
+  "europe-great-britain": {
+   "path": "europe/great-britain",
+   "day": 5,
+   "est": 8
+  },
+  "europe-ireland-and-northern-ireland": {
+   "path": "europe/ireland-and-northern-ireland",
+   "day": 5,
+   "est": 3
+  },
+  "europe-isle-of-man": {
+   "path": "europe/isle-of-man",
+   "day": 5,
+   "est": 2
+  },
+  "europe-guernsey-jersey": {
+   "path": "europe/guernsey-jersey",
+   "day": 5,
+   "est": 2
+  },
+  "europe-denmark": {
+   "path": "europe/denmark",
+   "day": 6,
+   "est": 3
+  },
+  "europe-norway": {
+   "path": "europe/norway",
+   "day": 6,
+   "est": 6
+  },
+  "europe-sweden": {
+   "path": "europe/sweden",
+   "day": 6,
+   "est": 5
+  },
+  "europe-finland": {
+   "path": "europe/finland",
+   "day": 6,
+   "est": 4
+  },
+  "europe-iceland": {
+   "path": "europe/iceland",
+   "day": 6,
+   "est": 2
+  },
+  "europe-faroe-islands": {
+   "path": "europe/faroe-islands",
+   "day": 6,
+   "est": 2
+  },
+  "europe-turkey": {
+   "path": "europe/turkey",
+   "day": 6,
+   "est": 4
+  },
+  "europe-ukraine": {
+   "path": "europe/ukraine",
+   "day": 6,
+   "est": 4
+  },
+  "europe-belarus": {
+   "path": "europe/belarus",
+   "day": 6,
+   "est": 3
+  },
+  "europe-moldova": {
+   "path": "europe/moldova",
+   "day": 6,
+   "est": 2
+  },
+  "europe-georgia": {
+   "path": "europe/georgia",
+   "day": 6,
+   "est": 2
+  },
+  "russia": {
+   "path": "russia",
+   "day": 6,
+   "est": 14
+  }
+ }
+}

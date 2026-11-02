@@ -1,0 +1,93 @@
+# VistaRush's map place copy, refreshed on GitHub's machines so it never
+# depends on anyone's computer being on: one copy per Geofabrik extract, each
+# region once a week on its day (scripts/places-copy/regions.json): North
+# America on Sundays, the rest of the world Monday to Saturday.
+#
+# scripts/places-copy/run.py picks the day's regions, then sends every
+# region's outline (the index the server reads) and downloads, cuts
+# (cut.py), uploads and switches each region in turn (upload.py). Each
+# region's copy before it is kept; older ones are deleted. A region that
+# fails changes nothing: its copy in use stays until a run completes, and the
+# server asks Overpass for anything the copies cannot answer.
+#
+# This repository is public, so its runs cost nothing. Needs the repository
+# secret BUNNY_STORAGE_PASSWORD (the storage zone's password, the one the
+# server uses); nothing here prints it, and no workflow here runs for a pull
+# request.
+
+name: Map places copy
+
+on:
+  schedule:
+    # Every day at 09:40 UTC, after Geofabrik's nightly extracts are published.
+    - cron: '40 9 * * *'
+  workflow_dispatch:
+    inputs:
+      regions:
+        description: "Regions to cut now, separated by spaces (empty: today's)"
+        required: false
+        default: ''
+
+concurrency:
+  group: places-copy
+  cancel-in-progress: false
+
+permissions:
+  # The keep-alive commit (the last step).
+  contents: write
+
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    # North America's run took 52 to 66 minutes on 2026-11-01; GitHub's limit
+    # for a job on its machines is 360.
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Choose the regions
+        id: plan
+        env:
+          ASKED: ${{ inputs.regions }}
+        run: python3 -I scripts/places-copy/run.py plan --asked "$ASKED" --out "$GITHUB_OUTPUT"
+
+      - name: Make room on the disk
+        if: steps.plan.outputs.regions != ''
+        # North America is 19.5 GB; 31 GB were free after the first four of
+        # these on 2026-11-01.
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache \
+            /usr/local/.ghcup /usr/local/share/boost /usr/share/swift
+          sudo docker image prune --all --force > /dev/null || true
+          df -h /
+
+      - name: Install osmium
+        if: steps.plan.outputs.regions != ''
+        run: sudo apt-get update -q && sudo apt-get install -y -q osmium-tool && osmium --version | head -1
+
+      - name: Cut, upload and switch each region
+        if: steps.plan.outputs.regions != ''
+        env:
+          BUNNY_STORAGE_ZONE: vib3
+          BUNNY_STORAGE_REGION: de
+          BUNNY_STORAGE_PASSWORD: ${{ secrets.BUNNY_STORAGE_PASSWORD }}
+          REGIONS: ${{ steps.plan.outputs.regions }}
+        run: |
+          test -n "$BUNNY_STORAGE_PASSWORD" || { echo "::error::the repository secret BUNNY_STORAGE_PASSWORD is not set"; exit 1; }
+          # The names were checked against regions.json by the plan.
+          python3 -I scripts/places-copy/run.py cut "$RUNNER_TEMP/places" $REGIONS
+
+      - name: Keep the schedule on
+        if: always()
+        # GitHub turns a public repository's schedules off after 60 days
+        # without activity: a commit at most every 45 days keeps them on.
+        run: |
+          last=$(git log -1 --format=%ct)
+          if [ $(( $(date +%s) - last )) -gt $(( 45 * 86400 )) ]; then
+            date -u +%Y-%m-%dT%H:%M:%SZ > .github/keep-alive
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add .github/keep-alive
+            git commit -q -m 'Keep the schedule on'
+            git push -q
+          fi
