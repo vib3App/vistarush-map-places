@@ -11,11 +11,19 @@ out=$2
 
 # Where Geofabrik sends us (a mirror for a continent, a dated file for a
 # country) and the file's size and date there, fixed for every attempt so
-# each resumed piece comes from the same file.
+# each resumed piece comes from the same file. Asked up to five times: on
+# 2026-11-02 the Czech Republic's question went unanswered for a minute
+# (curl 28, 0 bytes) and the region was skipped for the week, while
+# Slovakia's, asked a moment later, was answered at once.
 locate() {
-  local head
-  head=$(curl -sS -I -L --fail --max-time 60 -o /dev/null \
-    -w '%{url_effective}\n%header{content-length}\n%header{last-modified}' "$url")
+  local head tries=1
+  until head=$(curl -sS -I -L --fail --max-time 60 -o /dev/null \
+    -w '%{url_effective}\n%header{content-length}\n%header{last-modified}' "$url"); do
+    [ "$tries" -lt 5 ] || { echo "no answer from $url after $tries tries"; exit 1; }
+    tries=$((tries + 1))
+    echo "no answer from $url: asking again in 30 s (try $tries of 5)"
+    sleep 30
+  done
   src=$(sed -n 1p <<<"$head")
   size=$(sed -n 2p <<<"$head")
   stamp=$(sed -n 3p <<<"$head")
